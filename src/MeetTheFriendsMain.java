@@ -27,6 +27,9 @@ public class MeetTheFriendsMain extends JFrame {
     Connection connection;
     ResultSet resultSet;
 
+    PreparedStatement prepStmt_S;
+    String strPrepSQL_S = "SELECT ? FROM ? WHERE ?";
+
     public static void main(String[] args) {
         JFrame w = new MeetTheFriendsMain("Meet the Friends");
         w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,6 +40,22 @@ public class MeetTheFriendsMain extends JFrame {
     public MeetTheFriendsMain(String title) {
         super(title);
         initializeGUI();
+    }
+
+    void renewAnimalList (String contentid, int episode) {
+        String dbcolumn = "animalname";
+        String dbtable = "appearance";
+        String sql = "SELECT animalname FROM appearance WHERE contentid = '" + contentid + "' AND episode = '" + episode + "'";
+        try {
+            resultSet = statement.executeQuery(sql);
+
+            animalListModel.clear();
+            while (resultSet.next()) {
+                animalListModel.addElement(resultSet.getString(dbcolumn));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     class ConnectAction extends AbstractAction {
@@ -52,10 +71,15 @@ public class MeetTheFriendsMain extends JFrame {
                 try {
                     Class.forName(driverClassName);
                     connection = DriverManager.getConnection(url, user, password);
+                    prepStmt_S = connection.prepareStatement(strPrepSQL_S);
+                    statement = connection.createStatement();
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
                 statusLabel.setText("接続 OK");
+
+                //renewListModel(animalListModel, "appearance", "animalname");
+                //renewAnimalList("KMFR1", 1);
             }
         }
     }
@@ -104,7 +128,7 @@ public class MeetTheFriendsMain extends JFrame {
         column2.setLayout(new BoxLayout(column2, BoxLayout.Y_AXIS));
 
         locationListModel = new DefaultListModel<>();
-        locationList = new JList<>(animalListModel);
+        locationList = new JList<>(locationListModel);
         JScrollPane placeScrollPane = new JScrollPane(locationList);
         column2.add(placeScrollPane);
         paneCenter.add(column2);
