@@ -257,8 +257,8 @@ public class MeetTheFriendsMain extends JFrame {
         pane = (JPanel)getContentPane();
         pane.setLayout(new BorderLayout());
         paneCenter = new JPanel();
-        paneCenter.setLayout(new BoxLayout(paneCenter, BoxLayout.X_AXIS));
-        //paneCenter.setLayout(new FlowLayout(FlowLayout.LEFT));
+        //paneCenter.setLayout(new BoxLayout(paneCenter, BoxLayout.X_AXIS));
+        paneCenter.setLayout(new GridLayout(1, 3));
 
 
         //一番上の部分
