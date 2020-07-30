@@ -2,7 +2,7 @@ import java.awt.*;
 import java.sql.*;
 import javax.swing.*;
 
-public class meetTheFriendsMain extends JFrame {
+public class MeetTheFriendsMain extends JFrame {
     JPanel pane, paneCenter;
 
     String driverClassName = "org.postgresql.Driver";
@@ -14,13 +14,13 @@ public class meetTheFriendsMain extends JFrame {
     ResultSet resultSet;
 
     public static void main(String[] args) {
-        JFrame w = new meetTheFriendsMain("Meet the Friends");
+        JFrame w = new MeetTheFriendsMain("Meet the Friends");
         w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         w.setSize(800, 400);
         w.setVisible(true);
     }
 
-    public meetTheFriendsMain(String title) {
+    public MeetTheFriendsMain(String title) {
         super(title);
         initializeGUI();
     }
