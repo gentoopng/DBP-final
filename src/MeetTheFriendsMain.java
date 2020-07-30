@@ -2,19 +2,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.*;
 import javax.swing.*;
-import javax.swing.border.Border;
 
 public class MeetTheFriendsMain extends JFrame {
     JPanel pane, paneCenter;
     JPanel topPanel, bottomPanel;
     JPanel column1, column2, column3;
-    JPanel selAnimalPanel, selPlacePanel;
+    JPanel selAnimalPanel, selLocationPanel;
 
     JComboBox<String> mediaBox, episodeBox;
-    JList<String> animalList, placeList;
-    DefaultListModel<String> animalListModel, placeListModel;
+    JList<String> animalList, locationList;
+    DefaultListModel<String> animalListModel, locationListModel;
     JButton connectBtn;
-    JLabel selAnimalLabel, selPlaceLabel;
+    JLabel selAnimalLabel, selLocationLabel;
     JLabel statusLabel;
 
     String driverClassName = "org.postgresql.Driver";
@@ -53,7 +52,6 @@ public class MeetTheFriendsMain extends JFrame {
                 try {
                     Class.forName(driverClassName);
                     connection = DriverManager.getConnection(url, user, password);
-
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
@@ -105,9 +103,9 @@ public class MeetTheFriendsMain extends JFrame {
         column2 = new JPanel();
         column2.setLayout(new BoxLayout(column2, BoxLayout.Y_AXIS));
 
-        placeListModel = new DefaultListModel<>();
-        placeList = new JList<>(animalListModel);
-        JScrollPane placeScrollPane = new JScrollPane(placeList);
+        locationListModel = new DefaultListModel<>();
+        locationList = new JList<>(animalListModel);
+        JScrollPane placeScrollPane = new JScrollPane(locationList);
         column2.add(placeScrollPane);
         paneCenter.add(column2);
 
@@ -115,11 +113,11 @@ public class MeetTheFriendsMain extends JFrame {
         column3 = new JPanel();
         column3.setLayout(new BoxLayout(column3, BoxLayout.Y_AXIS));
 
-        selPlacePanel = new JPanel();
-        selPlacePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        selPlaceLabel = new JLabel("選択された場所");
-        selPlacePanel.add(selPlaceLabel);
-        column3.add(selPlacePanel);
+        selLocationPanel = new JPanel();
+        selLocationPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        selLocationLabel = new JLabel("選択された場所");
+        selLocationPanel.add(selLocationLabel);
+        column3.add(selLocationPanel);
         selAnimalPanel = new JPanel();
         selAnimalPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         selAnimalLabel = new JLabel("選択された動物");
