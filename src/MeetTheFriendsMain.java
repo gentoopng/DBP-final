@@ -18,7 +18,10 @@ public class MeetTheFriendsMain extends JFrame {
     JLabel statusLabel;
 
     String driverClassName = "org.postgresql.Driver";
-    String url = "jdbc:postgresql://localhost/test";
+    String databasename = "test";
+    String servername = null;
+    String urlprefix = "jdbc:postgresql://";    // jdbc:postgresql://servername/database
+    String url = null;
     String user = "dbpuser";
     String password = "hogehoge";
     Statement statement;
@@ -40,7 +43,22 @@ public class MeetTheFriendsMain extends JFrame {
     class ConnectAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
+            String value = JOptionPane.showInputDialog("サーバーアドレスを入力してください");
+            if (value == null) {
+                statusLabel.setText("もう一度接続してください");
+            } else {
+                servername = value;
+                url = urlprefix + servername + "/" + databasename;
 
+                try {
+                    Class.forName(driverClassName);
+                    connection = DriverManager.getConnection(url, user, password);
+
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+                statusLabel.setText("接続 OK");
+            }
         }
     }
 
@@ -64,7 +82,7 @@ public class MeetTheFriendsMain extends JFrame {
         //一番下の部分（ステータスバー）
         bottomPanel = new JPanel();
         bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 4));
-        statusLabel = new JLabel("ステータスバー");
+        statusLabel = new JLabel("接続してください");
         bottomPanel.add(statusLabel);
         pane.add(bottomPanel, BorderLayout.PAGE_END);
 
